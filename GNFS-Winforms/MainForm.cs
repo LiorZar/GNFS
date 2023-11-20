@@ -480,7 +480,7 @@ namespace GNFS_Winforms
 		{
 			if (!IsWorking)
 			{
-				if (DoesSaveFileExist)
+				if ( false && DoesSaveFileExist)
 				{
 					DialogResult confirmationResult = MessageBox.Show(
 							"Are you sure that you want to override this progress a start new?" + Environment.NewLine +

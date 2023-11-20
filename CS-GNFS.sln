@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34114.132
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNFSCore", "GNFSCore\GNFSCore.csproj", "{2AD1979D-4661-48F1-B264-81001452DB8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GNFSCore", "GNFSCore\GNFSCore.csproj", "{2AD1979D-4661-48F1-B264-81001452DB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNFS-Winforms", "GNFS-Winforms\GNFS-Winforms.csproj", "{999F4869-60CB-40A1-BEAD-6965550846A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GNFS-Winforms", "GNFS-Winforms\GNFS-Winforms.csproj", "{999F4869-60CB-40A1-BEAD-6965550846A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGNFS.Integration", "TestGNFS\TestGNFS.Integration.csproj", "{270FD84F-566B-4B4A-A46B-E615F47284B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGNFS.Integration", "TestGNFS\TestGNFS.Integration.csproj", "{270FD84F-566B-4B4A-A46B-E615F47284B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {228D04F4-095E-49F9-8E5A-DAB9A25F2E93}
 	EndGlobalSection
 EndGlobal
