@@ -177,7 +177,7 @@ namespace GNFSCore
 						if (nullRels.Any())
 						{
 							temp = temp.Where(x => !(x is null)).ToList();
-							string bp = "";
+							
 						}
 						temp.ForEach(rel => rel.IsPersisted = true);
 						gnfs.CurrentRelationsProgress.SmoothRelationsCounter = temp.Count;

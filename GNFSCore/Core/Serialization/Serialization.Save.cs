@@ -118,7 +118,7 @@ namespace GNFSCore
 				public static class Smooth
 				{
 					private static bool? _fileExists = null;
-					private static string _saveFilePath = null;
+					
 
 					private static bool FileExists(GNFS gnfs)
 					{
@@ -164,7 +164,7 @@ namespace GNFSCore
 				public static class Rough
 				{
 					private static bool? _fileExists = null;
-					private static string _saveFilePath = null;
+					
 
 					private static bool FileExists(GNFS gnfs)
 					{
