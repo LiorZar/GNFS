@@ -460,7 +460,7 @@ namespace GNFS_Winforms
 					Logging.LogMessage($"Quadratic Factor Base (MaxValue):\t{localGnfs.PrimeFactorBase.QuadraticFactorBaseMax}");
 					Logging.LogMessage();
 					Logging.LogMessage($"Algebraic Factor Pairs (Quantity):\t{localGnfs.AlgebraicFactorPairCollection.Count}");
-					Logging.LogMessage($"Rational Factor Pairs (Quantity):\t{localGnfs.RationalFactorPairCollection.Count}");
+					Logging.LogMessage($"Rational Factor Pairs  (Quantity):\t{localGnfs.RationalFactorPairCollection.Count}");
 					Logging.LogMessage($"Quadratic Factor Pairs (Quantity):\t{localGnfs.QuadraticFactorPairCollection.Count}");
 					Logging.LogMessage();
 					Logging.LogMessage($"     Smooth Relations (Quantity):\t{localGnfs.CurrentRelationsProgress.SmoothRelationsCounter}");
