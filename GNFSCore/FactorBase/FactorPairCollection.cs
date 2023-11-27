@@ -31,7 +31,16 @@ namespace GNFSCore.Factors
             return string.Join("\t", this.Take(take).Select(factr => factr.ToString()));
         }
 
-        public static class Factory
+		public int PrimeIndex( int p )
+		{
+			return this.FindIndex(pr => pr.P == p);
+		}
+		public int PrimeIndex(BigInteger _p)
+		{
+			int p = (int)_p;
+			return PrimeIndex(p);
+		}
+		public static class Factory
         {
             // array of (p, m % p) up to bound
             // quantity = phi(bound)
@@ -83,7 +92,7 @@ namespace GNFSCore.Factors
         public static List<BigInteger> GetRootsMod(Polynomial polynomial, BigInteger baseM, IEnumerable<BigInteger> modList)
         {
             BigInteger polyResult = polynomial.Evaluate(baseM);
-            IEnumerable<BigInteger> result = modList.Where(mod => (polyResult % mod) == 0);
+            IEnumerable<BigInteger> result = modList.Where(mod => (mod > baseM && (polyResult % mod) == 0));
             return result.ToList();
         }
     }
