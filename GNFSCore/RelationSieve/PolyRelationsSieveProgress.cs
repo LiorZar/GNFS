@@ -40,9 +40,15 @@ namespace GNFSCore
 		{
 			get
 			{
-				return PrimeFactory.GetIndexFromValue(_gnfs.PrimeFactorBase.RationalFactorBaseMax)
-					  + PrimeFactory.GetIndexFromValue(_gnfs.PrimeFactorBase.AlgebraicFactorBaseMax)
-					  + _gnfs.QuadraticFactorPairCollection.Count + 3;
+				int tot = _gnfs.RationalFactorPairCollection.Count + _gnfs.AlgebraicFactorPairCollection.Count + _gnfs.QuadraticFactorPairCollection.Count + 10;
+// 				int tot = 
+// 					PrimeFactory.GetIndexFromValue(_gnfs.PrimeFactorBase.RationalFactorBaseMax)
+// 					  + PrimeFactory.GetIndexFromValue(_gnfs.PrimeFactorBase.AlgebraicFactorBaseMax)
+// 					  + _gnfs.QuadraticFactorPairCollection.Count + 3;
+// 
+// 				if (tot % 2 == 1)
+// 					++tot;
+				return tot;
 			}
 		}
 
@@ -66,7 +72,7 @@ namespace GNFSCore
 			Relations = new RelationContainer();
 
 			A = 0;
-			B = 3;
+			B = 1;
 			ValueRange = valueRange;
 
 			if (smoothRelationsTargetQuantity == -1)
