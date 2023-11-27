@@ -16,12 +16,14 @@ namespace GNFSCore.IntegerMath
 		{
 			if (p < 2) { throw new ArgumentOutOfRangeException(nameof(p), $"Parameter '{nameof(p)}' must not be < 2, but you have supplied: {p}"); }
 			if (a == 0) { return 0; }
-			if (a == 1) { return 1; }
+			if (a == 1) { 
+				return 1; 
+			}
 
 			int result;
 			if (a.Mod(2) == 0)
 			{
-				result = Symbol(a >> 2, p); // >> right shift == /2
+				result = Symbol(a >> 1, p); // >> right shift == /2
 				if (((p * p - 1) & 8) != 0) // instead of dividing by 8, shift the mask bit
 				{
 					result = -result;
@@ -35,6 +37,8 @@ namespace GNFSCore.IntegerMath
 					result = -result;
 				}
 			}
+			if (1 == result)
+				return 1;
 			return result;
 		}
 
