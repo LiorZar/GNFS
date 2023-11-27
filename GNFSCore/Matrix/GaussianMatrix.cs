@@ -15,7 +15,8 @@ namespace GNFSCore.Matrix
 		public int RowCount { get { return M.Count; } }
 		public int ColumnCount { get { return M.Any() ? M.First().Length : 0; } }
 
-		private List<bool[]> M;
+		public List<bool[]> A;
+		public List<bool[]> M;
 		private bool[] freeCols;
 		private bool eliminationStep;
 
@@ -33,6 +34,18 @@ namespace GNFSCore.Matrix
 			M = new List<bool[]>();
 
 			relations = rels;
+			relations.Sort(delegate (Relation r1, Relation r2)
+			{
+				var a1 = Math.Abs((int)r1.A);
+				var a2 = Math.Abs((int)r2.A);
+				if (r1.B < r2.B) return -1;
+				if (r1.B > r2.B) return 1;
+				if (a1 < a2) return -1;
+				if (a1 > a2) return 1;
+				if (r1.A < r2.A) return 1;
+				if (r1.A > r2.A) return -1;
+				return 0;
+			});
 
 			List<GaussianRow> relationsAsRows = new List<GaussianRow>();
 
@@ -47,7 +60,7 @@ namespace GNFSCore.Matrix
 
 			List<GaussianRow> selectedRows = relationsAsRows.Take(_gnfs.CurrentRelationsProgress.SmoothRelationsRequiredForMatrixStep).ToList();
 
-			int maxIndexRat = selectedRows.Select(row => row.LastIndexOfRational).Max();
+			/*int maxIndexRat = selectedRows.Select(row => row.LastIndexOfRational).Max();
 			int maxIndexAlg = selectedRows.Select(row => row.LastIndexOfAlgebraic).Max();
 			int maxIndexQua = selectedRows.Select(row => row.LastIndexOfQuadratic).Max();
 
@@ -56,14 +69,14 @@ namespace GNFSCore.Matrix
 				row.ResizeRationalPart(maxIndexRat);
 				row.ResizeAlgebraicPart(maxIndexAlg);
 				row.ResizeQuadraticPart(maxIndexQua);
-			}
+			}*/
 
 			GaussianRow exampleRow = selectedRows.First();
 			int newLength = exampleRow.GetBoolArray().Length;
 
 			newLength++;
 
-			selectedRows = selectedRows.Take(newLength).ToList();
+			//selectedRows = selectedRows.Take(newLength).ToList();
 
 
 			foreach (GaussianRow row in selectedRows)
@@ -72,6 +85,35 @@ namespace GNFSCore.Matrix
 			}
 		}
 
+		public void PrintMatrix(List<bool[]> mat)
+		{
+			string s;
+			for(int r = 0; r < mat.Count; ++r)
+			{
+				if (r % 8 == 0)
+					GNFS.LogFunction("");
+
+				s = GaussianRow.ToBinaryString(mat[r]);
+				GNFS.LogFunction(s);
+			}
+			GNFS.LogFunction("");
+			GNFS.LogFunction("");
+		}
+		public void NoTranspose()
+		{
+			List<bool[]> result = new List<bool[]>();
+			
+			int index = 0;
+			int numRows = relationMatrixTuple.Count;
+			while (index < numRows)
+			{
+				List<bool> newRow = relationMatrixTuple[index].Item2.ToList();
+				result.Add(newRow.ToArray());
+
+				index++;
+			}
+			A = result;
+		}
 		public void TransposeAppend()
 		{
 			List<bool[]> result = new List<bool[]>();
@@ -90,6 +132,32 @@ namespace GNFSCore.Matrix
 				index++;
 			}
 
+			M = result;
+			freeCols = new bool[M.Count];
+		}
+		static bool[] ConvertBinaryStringToBoolArray(string binaryString)
+		{
+			bool[] boolArray = new bool[binaryString.Length];
+
+			for (int i = 0; i < binaryString.Length; i++)
+			{
+				// Convert each character to a boolean value
+				boolArray[i] = binaryString[i] == '1';
+			}
+
+			return boolArray;
+		}
+		public void CreateMat()
+		{
+			string m = "00000000000000100000000000000000000000000000000x11001000011100100000000100100000000100000100100x01100001000100111001100000000100001011001100000x01000100000000010010011010100000000011001011000x00000100000010100100000001000010000000000000010x00100000100000000000000001110000110000000000000x00000001000000000010000000010001100000000000000x00001000000000000000000010000000000010110000000x00000000000000000001011000000000011000010100010x00000000001001000000000000000000000000001010000x00010000000000000000100000000010000100000000000x00110011000010000000001001001010010010000000000x10000011011000000000000000000001100000011001000x00000100010000000000000000000100001000000000000x00000000000000010100000000001101010100100001000x00001000000011000000000000000000010000001000000x00000000100000000001000000000001000000100001000x00000000000000010010000001000000000000100010010x00000000010000001000000000000000000010000100100x01000000000000000000000000000011000000000000000x00000000001000000000000001001000000000000001000x00010000000000000000000000000000000000000000100x00000010000001100000000000000100000000000000000x00000000000100000000001000000010000000000010000x00000000000100000000000000010000000100000000000x00000000000000000000010000000000000000000000100x00000000000010000000000000100000000000000000000x00000000000000100000000000000000100001000000000x00000000000001000000010100000000000000000001000x00000000000000000000000010010001001001000010000x00000000000000100000000000000000000000000000010x10110000110110100111000011011100101111111010000x01101100010010010100101010000001100111100111100x10010100001101010101011101001010011100001000100x10111110100001000000000100000010010110010000010x01010010110100111100001001011111101111100100100x00110111111110110100101110111011010011111101100";
+			string[] lines = m.Split('x');
+
+			List<bool[]> result = new List<bool[]>();
+			for(int i = 0; i < lines.Length; ++i)
+			{
+				var b = ConvertBinaryStringToBoolArray(lines[i]);
+				result.Add(b);
+			}
 			M = result;
 			freeCols = new bool[M.Count];
 		}
