@@ -16,6 +16,9 @@ namespace GNFSCore.Matrix
 		public List<bool> AlgebraicPart { get; set; }
 		public List<bool> QuadraticPart { get; set; }
 
+		public int RationalCount { get { return RationalPart.Count; } }
+		public int AlgebraicCount { get { return AlgebraicPart.Count; } }
+		public int QuadraticCount { get { return QuadraticPart.Count; } }
 		public int LastIndexOfRational { get { return RationalPart.LastIndexOf(true); } }
 		public int LastIndexOfAlgebraic { get { return AlgebraicPart.LastIndexOf(true); } }
 		public int LastIndexOfQuadratic { get { return QuadraticPart.LastIndexOf(true); } }
@@ -37,38 +40,57 @@ namespace GNFSCore.Matrix
 
 			FactorPairCollection qfb = gnfs.QuadraticFactorPairCollection;
 
-			BigInteger rationalMaxValue = gnfs.PrimeFactorBase.RationalFactorBaseMax;
-			BigInteger algebraicMaxValue = gnfs.PrimeFactorBase.AlgebraicFactorBaseMax;
+			FactorPairCollection rational = gnfs.RationalFactorPairCollection;
+			FactorPairCollection algebraic = gnfs.AlgebraicFactorPairCollection;
 
-			RationalPart = GetVector(relation.RationalFactorization, rationalMaxValue).ToList();
-			AlgebraicPart = GetVector(relation.AlgebraicFactorization, algebraicMaxValue).ToList();
+			RationalPart = GetVector(relation.RationalFactorization, rational).ToList();
+			AlgebraicPart = GetVector(relation.AlgebraicFactorization, algebraic).ToList();
 			QuadraticPart = qfb.Select(qf => QuadraticResidue.GetQuadraticCharacter(relation, qf)).ToList();
+
+// 			var s = ToBinaryString(GetBoolArray());
+// 			GNFS.LogFunction(s);
 		}
-
-		protected static bool[] GetVector(CountDictionary primeFactorizationDict, BigInteger maxValue)
+		public static string ToBinaryString(bool[] row)
 		{
-			int primeIndex = PrimeFactory.GetIndexFromValue(maxValue);
-
-			bool[] result = new bool[primeIndex];
+			string s = "";
+			for (int c = 0; c < row.Length; ++c)
+			{
+				if (c % 8 == 0)
+					s += " ";
+				if (row[c])
+					s += "1";
+				else
+					s += "0";
+			}
+			return s;
+		}
+		//protected static bool[] GetVector(CountDictionary primeFactorizationDict, BigInteger maxValue)
+		protected static bool[] GetVector(CountDictionary primeFactorizationDict, FactorPairCollection pairs)
+		{
+			bool[] result = new bool[pairs.Count];
 
 			if (primeFactorizationDict.Any())
 			{
 				foreach (KeyValuePair<BigInteger, BigInteger> kvp in primeFactorizationDict)
 				{
-					if (kvp.Key > maxValue)
-					{
-						continue;
-					}
 					if (kvp.Key == -1)
 					{
 						continue;
 					}
+					
+					int index = pairs.PrimeIndex(kvp.Key);
+					if (-1 == index)
+						continue;
+// 					if (kvp.Key > maxValue)
+// 					{
+// 						continue;
+// 					}					
 					if (kvp.Value % 2 == 0)
 					{
 						continue;
 					}
 
-					int index = PrimeFactory.GetIndexFromValue(kvp.Key);
+					//int index = PrimeFactory.GetIndexFromValue(kvp.Key);
 					result[index] = true;
 				}
 			}
