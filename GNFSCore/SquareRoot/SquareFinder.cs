@@ -81,6 +81,8 @@ namespace GNFSCore.SquareRoot
 			PolynomialDerivativeSquaredInField = Polynomial.Field.Modulus(PolynomialDerivativeSquared, gnfs.CurrentPolynomial);
 
 			LogFunction.Invoke("");
+			LogFunction.Invoke($"M = {PolynomialBase}");
+			LogFunction.Invoke($"ƒ(θ) = {gnfs.CurrentPolynomial}");
 			LogFunction.Invoke($"ƒ'(θ) = {PolynomialDerivative}");
 			LogFunction.Invoke($"ƒ'(θ)² = {PolynomialDerivativeSquared}");
 			LogFunction.Invoke($"ƒ'(θ)² ∈ ℤ[θ] = {PolynomialDerivativeSquaredInField}");
@@ -121,7 +123,7 @@ namespace GNFSCore.SquareRoot
 			List<List<Relation>> freeRelations = gnfs.CurrentRelationsProgress.FreeRelations;
 			SquareFinder squareRootFinder = new SquareFinder(gnfs);
 
-			int freeRelationIndex = 0;
+			int freeRelationIndex = -1;
 			bool solutionFound = false;
 
 			// Below randomly selects a solution set to try and find a square root of the polynomial in.
@@ -143,7 +145,8 @@ namespace GNFSCore.SquareRoot
 				do
 				{
 					// Below randomly selects a solution set to try and find a square root of the polynomial in.
-					freeRelationIndex = StaticRandom.Next(0, freeRelations.Count);
+					//freeRelationIndex = StaticRandom.Next(0, freeRelations.Count);
+					++freeRelationIndex;
 				}
 				while (triedFreeRelationIndices.Contains(freeRelationIndex));
 
