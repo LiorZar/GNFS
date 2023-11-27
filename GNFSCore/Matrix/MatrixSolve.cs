@@ -45,8 +45,13 @@ namespace GNFSCore.Matrix
 				}
 
 				GaussianMatrix gaussianReduction = new GaussianMatrix(gnfs, selectedRelations);
+				gaussianReduction.NoTranspose();
+				gaussianReduction.PrintMatrix(gaussianReduction.A);
+				//gaussianReduction.CreateMat();
 				gaussianReduction.TransposeAppend();
+				gaussianReduction.PrintMatrix(gaussianReduction.M);
 				gaussianReduction.Elimination();
+				gaussianReduction.PrintMatrix(gaussianReduction.M);
 
 				int number = 1;
 				int solutionCount = gaussianReduction.FreeVariables.Count(b => b) - 1;
@@ -68,12 +73,12 @@ namespace GNFSCore.Matrix
 					bool isAlgebraicSquare = algebraic.IsSquare();
 					bool isRationalSquare = rational.IsSquare();
 
-					//gnfs.LogFunction("---");
-					//gnfs.LogFunction($"Relations count: {relations.Count}");
-					//gnfs.LogFunction($"(a,b) pairs: {string.Join(" ", relations.Select(rel => $"({rel.A},{rel.B})"))}");
-					//gnfs.LogFunction($"Rational  ∏(a+mb): IsSquare? {isRationalSquare} : {rational}");
-					//gnfs.LogFunction($"Algebraic ∏ƒ(a/b): IsSquare? {isAlgebraicSquare} : {algebraic}");
-					//gnfs.LogFunction($"Algebraic (factorization): {algCountDict.FormatStringAsFactorization()}");
+					GNFS.LogFunction("---");
+					GNFS.LogFunction($"Relations count: {relations.Count}");
+					GNFS.LogFunction($"(a,b) pairs: {string.Join(" ", relations.Select(rel => $"({rel.A},{rel.B})"))}");
+					GNFS.LogFunction($"Rational  ∏(a+mb): IsSquare? {isRationalSquare} : {rational}");
+					GNFS.LogFunction($"Algebraic ∏ƒ(a/b): IsSquare? {isAlgebraicSquare} : {algebraic}");
+					GNFS.LogFunction($"Algebraic (factorization): {algCountDict.FormatStringAsFactorization()}");
 
 					if (isAlgebraicSquare && isRationalSquare)
 					{
