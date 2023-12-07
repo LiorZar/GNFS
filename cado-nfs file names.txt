@@ -1,0 +1,5 @@
+Files:
+polynom: c*.poly
+
+prime base 1: 'c30.roots0.gz'
+prime base 2: 'c30.roots1.gz'
